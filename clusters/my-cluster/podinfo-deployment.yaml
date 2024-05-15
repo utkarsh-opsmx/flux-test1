@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: podinfod
-          image: ghcr.io/utkarshopsmx/podinfo:latest
+          image: docker.io/utkarshopsmx/podinfo:latest
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
