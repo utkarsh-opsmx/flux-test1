@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: podinfod
-          image: docker.io/utkarshopsmx/podinfo:latest
+          image: docker.io/utkarshopsmx/podinfo:1.0.0 # {"$imagepolicy": "flux-system:podinfo"}
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
