@@ -1,18 +1,25 @@
-name: Validate code in the merge queue
+name: merge-queue-check
 
 on:
   merge_group:
 
 jobs:
-  validate-pr:
+  validate-merge:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Display info
-      run: | 
-        pwd
-        tree -a -I '.git'
-        git status
-    - name: Run slow CI (emulated by a long sleep)
-      run: sleep 300
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Simulate a merge-time validation
+        run: |
+          echo "🧪 Running checks on merge group..."
+          # Example: reject if a forbidden file is touched
+          if git diff --name-only ${{ github.event.merge_group.base_sha }} ${{ github.sha }} | grep -q '^secrets/'; then
+            echo "❌ Cannot modify secrets/ directory during merge."
+            exit 1
+          fi
+          echo "✅ Merge group checks passed."
